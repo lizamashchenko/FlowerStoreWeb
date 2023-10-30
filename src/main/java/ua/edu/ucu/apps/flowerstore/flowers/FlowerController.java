@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -13,16 +14,25 @@ import java.util.Arrays;
 public class FlowerController {
     @GetMapping("/createflower")
     public String createFlower() {
-        return new Flower("tulip", 100, 45).toString();
+        return new Flower(FlowerType.TULIP, 100, FlowerColor.RED).toString();
     }
 
     @GetMapping("/flowerWithParam")
-    public String createFlower(@RequestParam String name, @RequestParam double price, @RequestParam double sepalLength){
-        return new Flower(name, price, sepalLength).toString();
+    public String createFlower(@RequestParam String name, @RequestParam double price, @RequestParam String color){
+        switch (name) {
+            case "Tulip", "tulip":
+                return new Flower(FlowerType.TULIP, price, FlowerColor.RED).toString();
+            case "Rose", "rose":
+                return new Flower(FlowerType.ROSE, price, FlowerColor.RED).toString();
+            case "Chamomile", "chamomile":
+                return new Flower(FlowerType.CHAMOMILE, price, FlowerColor.RED).toString();
+            default:
+                return "";
+        }
     }
 
     @GetMapping("/list")
     public ArrayList<Flower> createList() {
-        return new ArrayList<Flower>(Arrays.asList(new Flower("rose", 3, 200)));
+        return new ArrayList<Flower>(Arrays.asList(new Flower(FlowerType.ROSE, 3, FlowerColor.RED)));
     }
 }
